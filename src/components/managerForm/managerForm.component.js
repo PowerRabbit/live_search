@@ -58,18 +58,27 @@ const getSelectedIndex = (arr) => {
     return 0;
 }
 
-let doNotClose = false;
-let inputFocused = false;
-
 function ManagerForm(props) {
     const [requestInProgress, setRequestInProgress] = useState(false);
     const [showList, setShowList] = useState(false);
+    const [doNotClose, setDoNotClose] = useState(false);
+    const [inputFocused, setInputFocused] = useState(false);
     const componentEl = useRef(null);
     const inputEl = useRef(null);
+    const wrapperEl = useRef(null);
+    const entryHeight = 87;
+
+    const updateScrollPosition = (i) => {
+        wrapperEl.current.scroll(0, entryHeight*i);
+    };
 
     const handleKeyboard = (e, filteredEmployees) => {
         let selectedIndex;
         let newIndex;
+
+        if (!filteredEmployees.length) {
+            return;
+        }
 
         switch(e.key) {
             case KEYS.ARROW_UP:
@@ -97,22 +106,23 @@ function ManagerForm(props) {
             filteredEmployees[selectedIndex].selected = false;
             filteredEmployees[newIndex].selected = true;
             props.updateFilteredEmployees(filteredEmployees);
+            updateScrollPosition(newIndex);
         }
 
     }
 
     const open = () => {
         setShowList(true);
-        inputFocused = true;
+        setInputFocused(true);
     }
 
     const close = () => {
-        doNotClose = false;
+        setDoNotClose(false);
         setShowList(false);
     }
 
     const handleGlobalMouseup = (e) => {
-        doNotClose = false;
+        setDoNotClose(false);
         window.removeEventListener('mouseup', handleGlobalMouseup);
     };
 
@@ -120,7 +130,7 @@ function ManagerForm(props) {
         if (!e.path.includes(componentEl.current)) {
             window.removeEventListener('mousedown', handleGlobalMousedown);
         } else {
-            doNotClose = true;
+            setDoNotClose(true);
             window.addEventListener('mouseup', handleGlobalMouseup)
         }
     }
@@ -180,12 +190,10 @@ function ManagerForm(props) {
     };
 
     const handleBlur = () => {
-        inputFocused = false;
-        setTimeout(() => {
-            if (!doNotClose) {
-                close();
-            }
-        }, 100)
+        setInputFocused(false);
+        if (!doNotClose) {
+            close();
+        }
     }
 
     return <div ref={componentEl}>
@@ -208,7 +216,7 @@ function ManagerForm(props) {
         </div>
 
         {showList && props.filteredEmployees.length > 0 && (
-            <div className={styles.entriesWrapper}>
+            <div className={styles.entriesWrapper} ref={wrapperEl}>
                 {props.filteredEmployees.map((employee, k) => {
                     const className = employee.selected ? `${styles.entry} ${styles.selected}` : styles.entry
                     return <div
