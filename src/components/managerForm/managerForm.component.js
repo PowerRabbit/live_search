@@ -24,7 +24,6 @@ const addFullText = (employee) => {
     employee.fullText = (employee.firstName + employee.lastName).toLowerCase().replace(/[^\w]/g, '');
     employee.abbr = (employee.firstName[0] + employee.lastName[0]);
     employee.selected = false;
-
     return employee;
 }
 
@@ -63,13 +62,18 @@ function ManagerForm(props) {
     const [showList, setShowList] = useState(false);
     const [doNotClose, setDoNotClose] = useState(false);
     const [inputFocused, setInputFocused] = useState(false);
+    const [wrapperHeight, setWrapperHeight] = useState(0);
     const componentEl = useRef(null);
     const inputEl = useRef(null);
     const wrapperEl = useRef(null);
-    const entryHeight = 87;
+
 
     const updateScrollPosition = (i) => {
-        wrapperEl.current.scroll(0, entryHeight*i);
+        const wrapper = wrapperEl.current;
+        if (!wrapperHeight) {
+            setWrapperHeight(Math.ceil(parseInt(window.getComputedStyle(wrapper).height)/2));
+        }
+        wrapper.scroll(0, wrapperHeight*i);
     };
 
     const handleKeyboard = (e, filteredEmployees) => {
@@ -219,9 +223,7 @@ function ManagerForm(props) {
             <div className={styles.entriesWrapper} ref={wrapperEl}>
                 {props.filteredEmployees.map((employee, k) => {
                     const className = employee.selected ? `${styles.entry} ${styles.selected}` : styles.entry
-                    return <div
-                            key={k}
-                            className={className}>
+                    return <div key={k} className={className}>
                             <ManagerEntry
                                 onSelectEntry={selectEntry}
                                 person={employee}

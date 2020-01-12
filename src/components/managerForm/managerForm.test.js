@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
 import { act } from "react-dom/test-utils";
-import App from './App';
+import ManagerForm from './managerForm.component';
 
 const mockStore = configureMockStore();
 const store = mockStore({
@@ -13,17 +13,19 @@ const store = mockStore({
     }
 });
 
-describe('App', () => {
-    test('renders learn react link', () => {
+describe('managerForm', () => {
+    test('It renders', () => {
         act(() => {
             render(
                 <Provider store={store}>
-                    <App />
+                    <ManagerForm />
                 </Provider>
             );
         });
 
-        const live_search = document.querySelector('.live_search');
-        expect(live_search).toBeInTheDocument();
+        const label = document.querySelector('label');
+        expect(label.textContent).toEqual('Manager');
     });
 });
+
+
