@@ -1,5 +1,19 @@
-.entry:not(:last-child) {
-    border-bottom: 1px solid #ebebeb;
+.entry {
+    cursor: pointer;
+}
+
+.entry:hover,
+.entry[selected] {
+    background-color: #ebebeb;
+}
+
+.entry:not(:last-child):after {
+    content: "";
+    display: block;
+    height: 1px;
+    background-color: #ebebeb;
+    box-sizing: border-box;
+    margin: 0 20px;
 }
 
 .label {
@@ -47,7 +61,6 @@ input:focus + .arrow {
     border: 1px solid #dbdad8;
     border-radius: 10px;
     margin: 10px 0;
-    padding: 0 20px;
     box-shadow: 0 3px 5px 3px #5a69701f;
     max-height: 174px;
     overflow-y: scroll;

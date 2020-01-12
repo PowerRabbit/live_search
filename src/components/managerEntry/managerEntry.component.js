@@ -4,7 +4,7 @@ import styles from './managerEntry.module.css';
 function ManagerEntry(props) {
     const person = props.person;
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} onClick={() => props.onSelectEntry(person)}>
             <div className={styles.avatar}>{person.abbr}</div>
             <div className={styles.text_block}>
                 <div className={styles.name}>

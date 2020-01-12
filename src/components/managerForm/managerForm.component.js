@@ -41,17 +41,40 @@ const sortEmployees = (a, b) => {
         return nameA < nameB ? -1 : 1;
     }
 }
+let doNotClose = false;
 
 function ManagerForm(props) {
     const [requestInProgress, setRequestInProgress] = useState(false);
     const [showList, setShowList] = useState(false);
+    const componentEl = useRef(null);
     const inputEl = useRef(null);
+
+    const handleGlobalMouseup = (e) => {
+        doNotClose = false;
+        window.removeEventListener('mouseup', handleGlobalMouseup);
+    };
+
+    const handleGlobalMousedown = (e) => {
+        if (!e.path.includes(componentEl.current)) {
+            window.removeEventListener('mousedown', handleGlobalMousedown);
+        } else {
+            doNotClose = true;
+            window.addEventListener('mouseup', handleGlobalMouseup)
+        }
+    }
 
     const handleError = (error) => {
         setRequestInProgress(false);
         props.updateEmployees([]);
         props.updateFilteredEmployees([]);
         alert(error.message);
+    }
+
+    const selectEntry = (employee) => {
+        inputEl.current.value = `${employee.firstName} ${employee.lastName}`;
+        updateFiltered();
+        doNotClose = false;
+        setShowList(false);
     }
 
     const updateFiltered = (_e, employees = props.employees) => {
@@ -67,10 +90,11 @@ function ManagerForm(props) {
     }
 
     const requestEmployees = () => {
+        window.removeEventListener('mousedown', handleGlobalMousedown);
+        window.addEventListener('mousedown', handleGlobalMousedown);
         if (!props.employees.length) {
             if (!requestInProgress) {
                 setRequestInProgress(true);
-
                 getEmployeesData().then(employees => {
                     const _employees = employees.map(addFullText).sort(sortEmployees);
                     props.updateEmployees(_employees);
@@ -84,7 +108,15 @@ function ManagerForm(props) {
         }
     };
 
-    return <div>
+    const handleBlur = (e) => {
+        setTimeout(() => {
+            if (!doNotClose) {
+                setShowList(false);
+            }
+        }, 100)
+    }
+
+    return <div ref={componentEl}>
         <label className={styles.label} htmlFor="managerSearch">Manager</label>
         <div className={styles.inputWrapper}>
             <input
@@ -93,7 +125,7 @@ function ManagerForm(props) {
                 className={styles.input}
                 placeholder={props.placeholder}
                 onFocus={requestEmployees}
-                onBlur={() => setShowList(false)}
+                onBlur={(e) => handleBlur(e)}
                 onInput={updateFiltered}
                 ref={inputEl}
             />
@@ -105,8 +137,11 @@ function ManagerForm(props) {
         {showList && (
             <div className={styles.entriesWrapper}>
                 {props.filteredEmployees.map((employee, k) => {
-                    return <div key={k} className={styles.entry}>
+                    return <div
+                            key={k}
+                            className={styles.entry}>
                             <ManagerEntry
+                                onSelectEntry={selectEntry}
                                 person={employee}
                                 selected={employee.selected}
                             />
