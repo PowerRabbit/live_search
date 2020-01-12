@@ -1,0 +1,39 @@
+.avatar {
+    background-color: #7fd0c9;
+    border-radius: 5px;
+    color: #ffffff;
+    font-weight: 600;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    padding-bottom: 2px;
+    box-sizing: border-box;
+    width: 40px;
+    height: 40px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: flex-start;
+    padding: 23px 20px;
+}
+
+.text_block {
+    margin-left: 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.name {
+    color: #333c41;
+    line-height: 0.8;
+    font-size: 18px;
+}
+
+.email {
+    color: #929699;
+    font-size: 14px;
+}
