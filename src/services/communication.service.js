@@ -1,4 +1,4 @@
-/* const EMPLOYEES_URL = 'https://gist.githubusercontent.com/daviferreira/41238222ac31fe36348544ee1d4a9a5e/raw/5dc996407f6c9a6630bfcec56eee22d4bc54b518/employees.json';
+const EMPLOYEES_URL = 'https://gist.githubusercontent.com/daviferreira/41238222ac31fe36348544ee1d4a9a5e/raw/5dc996407f6c9a6630bfcec56eee22d4bc54b518/employees.json';
 
 const RESPONSE_TYPES = {
     ERROR: 'error',
@@ -42,17 +42,14 @@ const parseEmployee = (data, included) => {
             email
         };
     }
-} */
+}
 
 export const getEmployeesData = () => new Promise((resolve) => {
-   resolve([{"firstName":"Harriet","lastName":"McKinney","email":"harriet.mckinney@kinetar.com"},{"firstName":"Harriet","lastName":"Banks","email":"harriet.banks@kinetar.com"},{"firstName":"Mathilda","lastName":"Summers","email":"mathilda.summers@kinetar.com"},{"firstName":"Eugene","lastName":"Wong","email":"eugene.wong@kinetar.com"},{"firstName":"New","lastName":"Manager","email":"manager@kinetar.com"},{"firstName":"Marguerite","lastName":"Ryan","email":"marguerite.ryan@kinetar.com"},{"firstName":"Donald","lastName":"Butler","email":"donald.butler@kinetar.com"},{"firstName":"Jim","lastName":"Carlson","email":"jim.carlson@kinetar.com"},{"firstName":"Alta","lastName":"Maxwell","email":"alta.maxwell@kinetar.com"}]);
-
-    /* makeRequest('GET', EMPLOYEES_URL).then(response => {
+    makeRequest('GET', EMPLOYEES_URL).then(response => {
         if (response.type === RESPONSE_TYPES.ERROR) {
             throw new Error(response.message);
         }
         const result = [];
-
         const data = response.data && response.data.data;
         const included = response.data && response.data.included;
 
@@ -64,9 +61,6 @@ export const getEmployeesData = () => new Promise((resolve) => {
                }
            });
         }
-
-        console.log(JSON.stringify(result));
-
         resolve(result);
-    }); */
+    });
 });

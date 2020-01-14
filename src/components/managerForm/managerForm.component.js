@@ -177,6 +177,7 @@ function ManagerForm(props) {
     const requestEmployees = (employees) => {
         window.removeEventListener('mousedown', handleGlobalMousedown);
         window.addEventListener('mousedown', handleGlobalMousedown);
+
         if (!employees.length) {
             if (!requestInProgress) {
                 setRequestInProgress(true);
@@ -189,6 +190,7 @@ function ManagerForm(props) {
                 }).catch(handleError);
             }
         } else {
+            updateFiltered(null, employees);
             open();
         }
     };
