@@ -1,6 +1,6 @@
 ### About
 The application is built using create-react-app and Redux.
-There ARE 3 components:
+There are 3 components:
 - ManagerForm, which represents the input and implements most of the logic.
 - ManagerEntry, which outputs the employee data.
 - ArrowIcon - just a SVG icon.
