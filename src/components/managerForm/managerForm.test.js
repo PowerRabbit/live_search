@@ -68,7 +68,7 @@ describe('managerForm', () => {
             }
         });
 
-        test('The filteredEmployees is updated', () => {
+        test('The filteredEmployees list is updated', () => {
             const wrapper = mount(
                 <Provider store={store}>
                     <ManagerForm />
@@ -82,7 +82,7 @@ describe('managerForm', () => {
             expect(store.getActions()[0].filteredEmployees).toEqual(employeesList);
         });
 
-        test('The filteredEmployees is changed when the value is entered', () => {
+        test('The filteredEmployees list is changed when the value is entered', () => {
             const wrapper = mount(
                 <Provider store={store}>
                     <ManagerForm />
@@ -133,7 +133,7 @@ describe('managerForm', () => {
             }
         });
 
-        test('The filteredEmployees is updated', () => {
+        test('Text is rendered', () => {
             const wrapper = mount(
                 <Provider store={store}>
                     <ManagerForm />
